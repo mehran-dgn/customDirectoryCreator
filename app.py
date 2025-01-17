@@ -6,6 +6,7 @@ import win32clipboard
 
 rootDirectory = ""  
 createdFolder = ""  
+whoIsThisForVal = ""
 
 def askUserToChooseRootDir():  
     global rootDirectory  
@@ -64,11 +65,21 @@ def pasteFromClipboard():
         messagebox.showerror("Error", f"Failed to read the clipboard: {str(e)}")  
     finally:  
         win32clipboard.CloseClipboard()  
-        rootDirectory = ""  
         createdFolder = ""  
 
+
+def submitPerson():
+    global whoIsThisForVal
+    whoIsThisForVal = str(submitWhoIsThisFor.get())
+    print("shittt")
+    directoryToSaveNote =  os.path.join(rootDirectory, createdFolder)  
+    file = open(f"{directoryToSaveNote}/details.txt","w")
+    print(whoIsThisForVal)
+    file.write(f"شماره به نام : {whoIsThisForVal}")
+    file.close()
+
 root = tk.Tk()  
-root.geometry("600x400")  
+root.geometry("340x150")  
 root.title("نرم افزار مدیریت و ساخت پوشه ها")  
 
 mainFrame = tk.Frame(root)  
@@ -90,8 +101,18 @@ fileNameInput.grid(row=1, column=0, sticky="ew")
 createFolderBtn = tk.Button(mainFrame, text="ایجاد پوشه", command=createFolder)  
 createFolderBtn.grid(row=2, column=0, sticky="ew")  
 
-pasteButton = tk.Button(mainFrame, text="چسباندن از کلیپ بورد", command=pasteFromClipboard)  
+whoIsThisFor = tk.Label(mainFrame, text=":به نام")
+whoIsThisFor.grid(row=3, column=2, sticky="ew")
+
+submitWhoIsThisFor = tk.Entry(mainFrame)
+submitWhoIsThisFor.grid(row=3, column=1, sticky="ew")
+
+pasteButton = tk.Button(mainFrame, text="ثبت", command=submitPerson)  
 pasteButton.grid(row=3, column=0, sticky="ew")  
+
+
+pasteButton = tk.Button(mainFrame, text="چسباندن از کلیپ بورد", command=pasteFromClipboard)  
+pasteButton.grid(row=4, column=0, sticky="ew")  
 
 
 root.grid_rowconfigure(0, weight=1)  

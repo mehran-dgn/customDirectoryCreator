@@ -1,0 +1,3 @@
+pyperclip==1.9.0
+pywin32==308
+tkinterdnd2==0.4.2

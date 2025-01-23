@@ -131,6 +131,16 @@ def submitPerson():
     file.write(f"{optionalDesc}")
     file.close()
 
+def fixPersianNumberFormat(event = None):
+    persian_numbers_mapping = {
+        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', 
+        '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9'
+    }
+    current_text = fixNumberFormatInput.get()
+    new_text = ''.join(persian_numbers_mapping.get(char, char) for char in current_text)
+    fixNumberFormatInput.delete(0,tk.END)
+    fixNumberFormatInput.insert(0, new_text)
+
 
 root = tk.Tk()  
 root.geometry("340x150")  
@@ -167,9 +177,16 @@ pasteButton = tk.Button(mainFrame, text="ثبت", command=submitPerson)
 pasteButton.grid(row=3, column=0, sticky="ew")  
 
 
-pasteButton = tk.Button(mainFrame, text="چسباندن از کلیپ بورد", command=pasteFromClipboard)  
-pasteButton.grid(row=4, column=0, sticky="ew")  
+fixNumberFormatInput = tk.Entry(mainFrame)
+fixNumberFormatInput.grid(row=4 , column=0 , sticky="ew")
 
+fixNmberFormatLabel = tk.Label(mainFrame , text="اصلاح فرمت اعداد")
+fixNmberFormatLabel.grid(row=4, column = 1 , sticky="ew")
+
+pasteButton = tk.Button(mainFrame, text="چسباندن از کلیپ بورد", command=pasteFromClipboard)  
+pasteButton.grid(row=5, column=0, sticky="ew")  
+
+fixNumberFormatInput.bind("<KeyRelease>",fixPersianNumberFormat)
 
 root.grid_rowconfigure(0, weight=1)  
 root.grid_columnconfigure(0, weight=1)  
